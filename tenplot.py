@@ -1,22 +1,45 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-n = 8
-i, j, k = np.indices((n, n, n))
 
-# indices are zero indexed which makes our calculations off by one
-# fixed by adding one to everything
-i = i + 1
-j = j + 1
-k = k + 1
+inputs = ["1", "2"]
 
-# voxels = j > i + (n - k)
-voxels = (i < j) & (j <= k)
+while 1:
+    print("Enter an option:\n \
+1) Plot a constraint tensor.\n \
+2) Quit.")
 
-colors = np.empty(voxels.shape, dtype=object)
-colors[voxels] = 'blue'
+    option = input()
+    if option not in inputs:
+        print("Please select a valid option.")
+        continue;
 
-ax = plt.figure().add_subplot(projection='3d')
-ax.voxels(voxels, facecolors=colors, edgecolor='k')
+    if option == "2":
+        print("Quitting...")
+        break;
 
-plt.show()
+    print("Enter the size of the tensor:")
+    n = int(input())
+
+    i, j, k = np.indices((n, n, n))
+
+    # indices are zero indexed which makes our calculations off by one
+    # fixed by adding one to everything
+    i = i + 1
+    j = j + 1
+    k = k + 1
+    print("Enter a constraint expression:")
+    express = input()
+
+    print("Generating plot...")
+
+    # voxels = j > i + (n - k)
+    voxels = eval(express)
+
+    colors = np.empty(voxels.shape, dtype=object)
+    colors[voxels] = 'blue'
+
+    ax = plt.figure().add_subplot(projection='3d')
+    ax.voxels(voxels, facecolors=colors, edgecolor='k')
+
+    plt.show()
